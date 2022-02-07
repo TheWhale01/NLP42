@@ -1,5 +1,6 @@
 import spacy
 from re import sub
+import pandas as pd
 
 def clear_str(txt):
 	txt = "".join([i if ord(i) < 128 else ' ' for i in txt])
@@ -20,31 +21,27 @@ def clear_str(txt):
 	txt = sub(r"\-", "", txt)
 	return (txt)
 
-def get_subject(txt) -> list():
+def	store_dict(txt :str, dico: dict) -> dict:
 	nlp = spacy.load("en_core_web_lg")
-	doc = nlp(txt)
-	subjs = []
-	for ent in doc.ents:
-		subjs.append(ent.text)
-	return (subjs)
-
-def	hugo(txt :str, dico: dict) -> dict:
-	
 	doc = nlp(txt)
 	for topic in doc.ents:
 		if topic.text not in dico.keys():
 			dico[topic.text] = [txt]
-		else:
-			if (txt not in dico[topic.text]):
+		elif (txt not in dico[topic.text]):
 				dico[topic.text].append(txt)
 	return (dico)
 
+def get_data() -> dict():
+	dico_trump = dict()
+	dico_biden = dict()
+	df_trump = pd.read_csv("./data/Trump.csv", low_memory=False)
+	#df_biden = pd.read_csv("./data/Biden.csv")
+	for tweet in df_trump["tweet"]:
+		print(tweet)
+	#for tweet in df_biden["tweet"]:
+	#	dico_biden = store_dict(clear_str(tweet), dico_biden)
+	return (dico_trump, dico_biden)
 
 if (__name__ == "__main__"):
-	dico = {}
-	nlp = spacy.load("en_core_web_lg")
-	txt = "I'm Joe Biden. Jules is an enormous idiot. Bob. Apple is an amazing compagny. Jules."
-	hugo(txt, dico)
-	txt = "I'm Spiderman. Jules is an enormous idiot. Bob. Apple is an amazing compagny. Jules."
-	hugo(txt, dico)
-	print(dico)
+	dict_trump, dict_biden = get_data()
+	print(dict_trump)
