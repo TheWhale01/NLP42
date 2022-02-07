@@ -47,15 +47,4 @@ if (__name__ == "__main__"):
 	hugo(txt, dico)
 	txt = "I'm Spiderman. Jules is an enormous idiot. Bob. Apple is an amazing compagny. Jules."
 	hugo(txt, dico)
-	# nlp = spacy.load("en_core_web_lg")
-	
-	# doc = nlp(txt)
-	# text_topics = []
-	# # [[topic, [strings]], [topic2, [str2]]
-	# ret = []
-	# for topic in doc.ents:
-	# 	if (topic.text not in text_topics):
-	# 		top = [topic.text, txt]
-	# 		ret.append(top)
-	# 		text_topics.append(topic.text)
 	print(dico)
